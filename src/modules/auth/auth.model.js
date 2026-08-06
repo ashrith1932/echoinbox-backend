@@ -6,6 +6,8 @@ const authSchema = new mongoose.Schema({
   displayName: { type: String, required: true },
   isActive: { type: Boolean, default: true },
   isEmailVerified: { type: Boolean, default: false },
+  otpCode: { type: String },
+  otpExpiresAt: { type: Date },
   settings: { type: mongoose.Schema.Types.Mixed, default: {} }
 }, { timestamps: true });
 

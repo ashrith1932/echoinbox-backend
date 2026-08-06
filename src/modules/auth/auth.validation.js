@@ -24,3 +24,12 @@ export const refreshSchema = z.object({
     refreshToken: z.string()
   })
 });
+
+export const verifyOtpSchema = z.object({
+  body: z.object({
+    email: z.string().email(),
+    otpCode: z.string().min(6).max(6),
+    deviceId: z.string().min(1),
+    role: z.enum(['sender', 'receiver', 'both']).default('both')
+  })
+});

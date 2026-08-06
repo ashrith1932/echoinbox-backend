@@ -12,7 +12,7 @@ export class AuthController {
         email, password, displayName, deviceId, role,
         ipAddress: req.ip, userAgent: req.get('user-agent')
       });
-      res.status(201).json({ success: true, data: result });
+      res.status(200).json({ success: true, data: result }); // Returns OTP_REQUIRED
     } catch (err) { next(err); }
   }
 
@@ -21,6 +21,17 @@ export class AuthController {
       const { email, password, deviceId, role } = req.body;
       const result = await AuthService.login({
         email, password, deviceId, role,
+        ipAddress: req.ip, userAgent: req.get('user-agent')
+      });
+      res.status(200).json({ success: true, data: result }); // Returns OTP_REQUIRED
+    } catch (err) { next(err); }
+  }
+
+  static async verifyOtp(req, res, next) {
+    try {
+      const { email, otpCode, deviceId, role } = req.body;
+      const result = await AuthService.verifyOtp({
+        email, otpCode, deviceId, role,
         ipAddress: req.ip, userAgent: req.get('user-agent')
       });
       res.status(200).json({ success: true, data: result });

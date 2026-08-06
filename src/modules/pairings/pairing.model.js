@@ -12,7 +12,8 @@ const pairingSchema = new mongoose.Schema({
   expiresAt: { type: Date, required: true },
   approvedAt: { type: Date },
   revokedAt: { type: Date },
-  revokedBy: { type: String }
+  revokedBy: { type: String },
+  permissions: { type: mongoose.Schema.Types.Mixed, default: {} }
 }, { timestamps: true });
 
 pairingSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });

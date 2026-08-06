@@ -7,7 +7,7 @@ export class PairingService {
   static async initiate(senderUserId, senderDeviceId, isPermanent = false) {
     const code = generatePairingCode();
     const token = generateRandomToken();
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 mins for pending
+    const expiresAt = new Date(Date.now() + 2 * 60 * 1000); // 2 mins for pending
 
     const pairing = await PairingRepository.create({
       senderUserId,
@@ -22,16 +22,22 @@ export class PairingService {
   }
 
   static async accept(receiverUserId, receiverDeviceId, pairingId, code) {
-    const pairing = await PairingRepository.findById(pairingId);
-    if (!pairing || pairing.status !== 'pending') {
-      throw new NotFoundError('Pairing not found or not pending');
+    let pairing;
+    if (pairingId) {
+      pairing = await PairingRepository.findById(pairingId);
+    } else {
+      pairing = await PairingRepository.findByCodeHash(hashString(code));
+    }
+
+    if (!pairing || pairing.status !== 'pending' || pairing.expiresAt < new Date()) {
+      throw new NotFoundError('Pairing not found, expired, or not pending');
     }
 
     if (pairing.pairingCodeHash !== hashString(code)) {
       throw new AppError('Invalid pairing code', 400, 'INVALID_CODE');
     }
 
-    return PairingRepository.update(pairingId, {
+    return PairingRepository.update(pairing._id, {
       receiverUserId,
       receiverDeviceId,
       status: 'pending' // Still pending until sender approves

@@ -20,4 +20,8 @@ export class PairingRepository {
   static async findActiveByReceiver(receiverUserId) {
     return Pairing.find({ receiverUserId, status: 'active' });
   }
+
+  static async findByCodeHash(pairingCodeHash) {
+    return Pairing.findOne({ pairingCodeHash, status: 'pending' });
+  }
 }

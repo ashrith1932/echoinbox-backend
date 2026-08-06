@@ -8,7 +8,7 @@ export const initiateSchema = z.object({
 
 export const acceptSchema = z.object({
   body: z.object({
-    pairingId: z.string().min(1),
+    pairingId: z.string().min(1).optional(),
     code: z.string().min(6)
   })
 });

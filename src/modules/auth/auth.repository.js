@@ -16,4 +16,15 @@ export class AuthRepository {
   static async updatePassword(id, passwordHash) {
     return User.findByIdAndUpdate(id, { passwordHash });
   }
+
+  static async saveOtp(id, otpCode, otpExpiresAt) {
+    return User.findByIdAndUpdate(id, { otpCode, otpExpiresAt }, { new: true });
+  }
+
+  static async verifyEmailAndClearOtp(id) {
+    return User.findByIdAndUpdate(id, {
+      isEmailVerified: true,
+      $unset: { otpCode: "", otpExpiresAt: "" }
+    }, { new: true });
+  }
 }
