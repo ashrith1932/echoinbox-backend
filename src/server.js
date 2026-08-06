@@ -23,7 +23,7 @@ const startServer = async () => {
     setupSocketHandlers(io);
 
     // 5. Start listening
-    server.listen(config.PORT, () => {
+    server.listen(config.PORT, '0.0.0.0', () => {
       logger.info(`Server is running on port ${config.PORT} in ${config.NODE_ENV} mode`);
       logger.info(`Swagger docs available at http://localhost:${config.PORT}/api-docs`);
     });
