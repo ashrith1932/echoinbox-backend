@@ -4,7 +4,7 @@ export const registerSchema = z.object({
   body: z.object({
     email: z.string().email(),
     password: z.string().min(8),
-    displayName: z.string().min(2),
+    displayName: z.string().min(2).optional(),
     deviceId: z.string().min(1),
     role: z.enum(['sender', 'receiver', 'both']).default('both')
   })
