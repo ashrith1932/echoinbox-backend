@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/echoinbox
+      - REDIS_URI=redis://redis:6379
+    depends_on:
+      - mongo
+      - redis
+    env_file:
+      - ../.env
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+volumes:
+  mongo-data:
