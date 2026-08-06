@@ -13,7 +13,8 @@ export class MessageController {
 
   static async getPending(req, res, next) {
     try {
-      const messages = await MessageService.getPending(req.user.deviceId);
+      const deviceId = req.headers['x-device-id'] || req.deviceId || req.user?.deviceId;
+      const messages = await MessageService.getPending(deviceId);
       res.status(200).json({ success: true, data: messages });
     } catch (err) { next(err); }
   }

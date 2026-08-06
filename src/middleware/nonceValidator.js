@@ -20,7 +20,8 @@ export const validateNonce = async (req, res, next) => {
     }
 
     // Check if nonce exists in DB
-    const isUnique = await NonceRepository.createNonce(nonce, req.user?.deviceId || 'anonymous');
+    const deviceId = req.headers['x-device-id'] || req.deviceId || req.user?.deviceId || 'anonymous';
+    const isUnique = await NonceRepository.createNonce(nonce, deviceId);
     if (!isUnique) {
       throw new AppError('Replay attack detected', 400, ErrorCodes.REPLAY_ATTEMPT);
     }
