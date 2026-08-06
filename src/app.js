@@ -52,6 +52,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/devices', deviceRoutes);
 app.use('/api/v1/pairings', pairingRoutes);
+app.use('/api/v1/pairing', pairingRoutes);
 app.use('/api/v1/messages', messageRoutes);
 
 // Error Handling

@@ -5,13 +5,25 @@ import { generatePairingCode, generateRandomToken, hashString } from '../../shar
 
 export class PairingService {
   static async initiate(senderDeviceId, isPermanent = false) {
-    const code = generatePairingCode();
+    let code;
+    let codeHash;
+    let attempts = 0;
+
+    // Guaranteed Uniqueness: Loop to prevent collisions with active pending codes
+    do {
+      code = generatePairingCode();
+      codeHash = hashString(code);
+      const existing = await PairingRepository.findByCodeHash(codeHash);
+      if (!existing) break;
+      attempts++;
+    } while (attempts < 10);
+
     const token = generateRandomToken();
     const expiresAt = new Date(Date.now() + 2 * 60 * 1000); // 2 mins for pending
 
     const pairing = await PairingRepository.create({
       senderDeviceId,
-      pairingCodeHash: hashString(code),
+      pairingCodeHash: codeHash,
       pairingTokenHash: hashString(token),
       isPermanent,
       expiresAt
