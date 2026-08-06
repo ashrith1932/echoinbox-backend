@@ -13,12 +13,12 @@ export class PairingRepository {
     return Pairing.findByIdAndUpdate(id, data, { new: true, session });
   }
 
-  static async findActiveBySender(senderUserId) {
-    return Pairing.find({ senderUserId, status: 'active' });
+  static async findActiveBySender(senderDeviceId) {
+    return Pairing.find({ senderDeviceId, status: 'active' });
   }
 
-  static async findActiveByReceiver(receiverUserId) {
-    return Pairing.find({ receiverUserId, status: 'active' });
+  static async findActiveByReceiver(receiverDeviceId) {
+    return Pairing.find({ receiverDeviceId, status: 'active' });
   }
 
   static async findByCodeHash(pairingCodeHash) {

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const pairingSchema = new mongoose.Schema({
   senderDeviceId: { type: String, required: true },
   receiverDeviceId: { type: String },
-  senderUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  senderUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   receiverUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   pairingCodeHash: { type: String, required: true },
   pairingTokenHash: { type: String, required: true },

@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 
 const deviceSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  deviceId: { type: String, required: true, unique: true, index: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   deviceName: { type: String, required: true },
   deviceModel: { type: String },
-  platform: { type: String },
+  platform: { type: String, default: 'android' },
   osVersion: { type: String },
   appVersion: { type: String },
-  role: { type: String, enum: ['sender', 'receiver', 'both'], required: true },
+  role: { type: String, enum: ['sender', 'receiver', 'both'], default: 'both' },
   publicKey: { type: String },
   publicKeyUpdatedAt: { type: Date },
   fcmToken: { type: String },
