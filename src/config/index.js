@@ -22,7 +22,8 @@ const envSchema = z.object({
   RATE_LIMIT_MAX: z.string().default('100'),
   NONCE_TTL_SECONDS: z.string().default('86400'),
   LOG_LEVEL: z.string().default('info'),
-  REDIS_URI: z.string().optional(),
+  UPSTASH_REDIS_REST_URL: z.string().optional(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
