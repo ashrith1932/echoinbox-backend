@@ -33,8 +33,8 @@ export class AuthService {
 
   static async login({ email, password, deviceId, role, ipAddress, userAgent }) {
     const user = await AuthRepository.findByEmail(email);
-    if (!user || !user.isActive || !user.isEmailVerified) {
-      throw new AuthError('Invalid credentials or email not verified');
+    if (!user || !user.isActive) {
+      throw new AuthError('Invalid credentials');
     }
 
     const isPasswordValid = await argon2.verify(user.passwordHash, password);
